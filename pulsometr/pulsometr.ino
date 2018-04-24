@@ -17,7 +17,7 @@ const int Tachycardia = 100;	// wartoœæ powy¿ej, której stwierdza siê Tachycardi
 const int Bradycardia = 60;		// wartoœæ poni¿ej, której stwierdza siê Bradycardiê
 int sr = 0;						// œrednia wartoœæ pulsu z 300 pomiarów
 int licznikSkokow = 0;			// liczba du¿ych skoków pomiêdzy s¹siednimi pomiarami 
-
+int sredniaSkokow = 0;
 
 /*-----------------s r e d n i a---------------------------------
 *	Funkcja wyliczaj¹ca œredni¹ wartoœæ pulsu z 300 pomiarów.
@@ -48,6 +48,7 @@ void zeruj()
 *----------------------------------------------------------------*/
 void liczDelte() 
 {
+	int suma = 0;
 	int DELTA = 0;
 	for (int i = 0; i < 299; i++)
 	{
@@ -61,8 +62,10 @@ void liczDelte()
 			Serial.println(tabPuls[i + 1]);
 			Serial.println("");
 			licznikSkokow++;
+			suma += DELTA;
 		}
 	}
+	sredniaSkokow = suma / licznikSkokow;
 }
 
 void setup() {
@@ -97,7 +100,7 @@ void loop() {
 			Serial.println("");
 			delta = MAX - MIN;
 			
-			Serial.print("Ró¿nica pomiêdzy MIN i MAX pulsem = ");
+			Serial.print("Roznica pomiedzy MIN i MAX pulsem = ");
 			Serial.println(delta);
 			Serial.print("Minimalny zarejestrowany puls =");
 			Serial.println(MIN);
@@ -108,19 +111,27 @@ void loop() {
 			Serial.print("Sredni puls to: ");
 			Serial.println(sr);
 			if (sr >= Tachycardia) {
-				Serial.println("Tachykardia - czêstoskurcz - przyœpieszona kacja serca (>100).");
+				Serial.println("Tachykardia - czestoskurcz - przyspieszona akcja serca (>100).");
 			}
 			else if (sr < Bradycardia) {
-				Serial.println("Bradykardia - œredni puls pomi¿ej normy (<60 uderzeñ na minutê).");
+				Serial.println("Bradykardia - sredni puls ponizej normy (<60 uderzen na minute).");
 			}
 			else {
 				Serial.println("Sredni puls w normie.");
 			}
 			Serial.println("");
-			Serial.print("Liczba du¿ych skoków pomiêdzy pomiarami pulsu: ");
+			Serial.print("Liczba duzych skokow pomiedzy pomiarami pulsu: ");
 			Serial.println(licznikSkokow);
+			if (sredniaSkokow)
+			{
+				Serial.print("Srednia wartosc duzych skokow tetna: ");
+				Serial.println(sredniaSkokow);
+			}
 			if (licznikSkokow > 10) {
-				Serial.println("Zbyt czêste skoki pulsu.  Brak regularnoœci têtna.");
+				Serial.println("Zbyt czeste skoki pulsu.  Brak miarowosci tetna.");
+			}
+			else {
+				Serial.println("Miarowosc zachowana.");
 			}
 			delay(5000000);
 
