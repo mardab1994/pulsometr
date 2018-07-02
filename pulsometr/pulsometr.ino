@@ -77,10 +77,10 @@ void setup() {
 void loop() {
 
 	uint8_t rateValue;
-	heartrate.getValue(heartratePin); ///< A1 foot sampled values
-	rateValue = heartrate.getRate(); ///< Get heart rate value 
+	heartrate.getValue(heartratePin); 
+	rateValue = heartrate.getRate(); 
 
-	if (rateValue &&(licznikPomiarow<300)) 
+	if (rateValue && (licznikPomiarow < 300)) 
 	{
 		Serial.print("Akutalny puls: ");
 		Serial.println(rateValue);
@@ -131,7 +131,7 @@ void loop() {
 				Serial.println("Zbyt czeste skoki pulsu.  Brak miarowosci tetna.");
 			}
 			else {
-				Serial.println("Miarowosc zachowana.");
+				Serial.println("Miarowosc têtna zachowana.");
 			}
 			delay(5000000);
 
